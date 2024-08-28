@@ -120,3 +120,20 @@ def test_quaternion_conversions():
                [sin(theta),  cos(theta), 0, -sin(theta) - cos(theta) + 1],
                [0,           0,          1,  0],
                [0,           0,          0,  1]])
+
+    # New test cases to verify the correct sign of the sin(x) function in the rotation matrix
+    q3 = Quaternion(cos(x/2), sin(x/2), 0, 0)
+    assert trigsimp(q3.to_rotation_matrix()) == Matrix([
+                                               [1, 0, 0],
+                                               [0, cos(x), -sin(x)],
+                                               [0, sin(x), cos(x)]])
+    q4 = Quaternion(cos(x/2), 0, sin(x/2), 0)
+    assert trigsimp(q4.to_rotation_matrix()) == Matrix([
+                                               [cos(x), 0, sin(x)],
+                                               [0, 1, 0],
+                                               [-sin(x), 0, cos(x)]])
+    q5 = Quaternion(cos(x/2), 0, 0, sin(x/2))
+    assert trigsimp(q5.to_rotation_matrix()) == Matrix([
+                                               [cos(x), -sin(x), 0],
+                                               [sin(x), cos(x), 0],
+                                               [0, 0, 1]])
